@@ -1,9 +1,9 @@
 init:
 - ps: >-
     Update-AppveyorBuild -Version "$env:APPVEYOR_REPO_TAG_NAME"
-    
+
     $env:FILE_VERSION = $env:APPVEYOR_REPO_TAG_NAME.Substring(1)
-    
+
     $env:PRODUCT_VERSION = $env:APPVEYOR_REPO_TAG_NAME.Substring(1)
 image: Visual Studio 2015
 install:

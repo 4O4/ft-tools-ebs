@@ -27,7 +27,7 @@ init:
     }
 image: Visual Studio 2015
 install:
-- cmd: cinst autoit.commandline -y -r
+- cmd: cinst autoit.commandline -y -r | find "Extracting" /v | find "shim" /v
 build_script:
 - ps: >-
     aut2exe /in doublescreen-ebs.au3 /pack /out doublescreen-ebs-x86.exe /fileversion %FILE_VERSION% /productversion %PRODUCT_VERSION%

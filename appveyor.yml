@@ -38,10 +38,12 @@ build_script:
 
     aut2exe /in java-alerts-bot.au3 /pack /out java-alerts-bot-x64.exe /fileversion %FILE_VERSION% /productversion %PRODUCT_VERSION%
 
+    IF "%APPVEYOR_REPO_TAG%"=="true" (
 
-    IF "%APPVEYOR_REPO_TAG%" == "true" (
       7z a %APPVEYOR_PROJECT_NAME%-%APPVEYOR_BUILD_VERSION%-x64.zip %APPVEYOR_BUILD_FOLDER%\*-x64.exe
+
       7z a %APPVEYOR_PROJECT_NAME%-%APPVEYOR_BUILD_VERSION%-x86.zip %APPVEYOR_BUILD_FOLDER%\*-x86.exe
+
     )
 artifacts:
 - path: '*.exe'
@@ -50,11 +52,11 @@ artifacts:
   name: windows-packages
 deploy:
 - provider: GitHub
-  tag: $(appveyor_repo_tag_name)
+  tag: $(APPVEYOR_REPO_TAG_NAME)
   auth_token:
     secure: DHeT+KPQh27VwA8VDS+ps7uvoW+lYs+LW3Z4O3R4dg3CJPipa11h12NEtB3vsUbc
   artifact: windows-binaries,windows-packages
-  release: $(APPVEYOR_PROJECT_NAME)-$(APPVEYOR_BUILD_VERSION)
+  release: $(APPVEYOR_PROJECT_NAME)-$(APPVEYOR_REPO_TAG_NAME)
   force_update: true
   on:
     branch: /v\d\.\d\.\d/

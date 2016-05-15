@@ -23,9 +23,11 @@ Global Const $SM_VIRTUALHEIGHT = 79
 $VIRTUALDESKTOPWIDTH = DLLCall("user32.dll","int","GetSystemMetrics","int", $SM_VIRTUALWIDTH)[0]
 $VIRTUALDESKTOPHEIGHT = DLLCall("user32.dll","int","GetSystemMetrics","int", $SM_VIRTUALHEIGHT)[0]
 
-If WinExists("[CLASS:SunAwtFrame; REGEXPTITLE:Oracle Applications - (.*?)]") Then
-   Local $hwnd = WinGetHandle("[CLASS:SunAwtFrame; REGEXPTITLE:Oracle Applications - (.*?)]")
-   Local $aArray = _GetDesktopArea()
+Local $aArray = _GetDesktopArea()
+Local $finalWidth = _Max($VIRTUALDESKTOPWIDTH, @DesktopWidth)
+Local $finalHeight = _Min(_Min($VIRTUALDESKTOPHEIGHT, @DesktopHeight), $aArray[3])
+Local $windows = WinList("[CLASS:SunAwtFrame; REGEXPTITLE:(Oracle Ap(.*?)|Ap(.*?) Oracle) - (.*?)]")
 
-   WinMove($hwnd, "", 0, 0, _Max($VIRTUALDESKTOPWIDTH, @DesktopWidth), _Min(_Min($VIRTUALDESKTOPHEIGHT, @DesktopHeight), $aArray[3]))
-EndIf
+For $i = 1 To $windows[0][0]
+   WinMove($windows[$i][1], "", 0, 0, $finalWidth, $finalHeight)
+Next

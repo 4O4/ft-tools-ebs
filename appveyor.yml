@@ -1,0 +1,30 @@
+init:
+- ps: >-
+    Update-AppveyorBuild -Version "$env:APPVEYOR_REPO_TAG_NAME"
+branches:
+  only:
+  - master
+skip_non_tags: true
+image: Visual Studio 2015
+install:
+- cmd: cinst autoit.commandline -y -r
+build_script:
+- cmd: >-
+    aut2exe /in doublescreen-ebs.au3 /pack /out doublescreen-ebs.exe /fileversion %APPVEYOR_BUILD_VERSION% /productversion  %APPVEYOR_BUILD_VERSION%
+
+    aut2exe /in java-alerts-bot.au3 /pack /out java-alerts-bot.exe /fileversion %APPVEYOR_BUILD_VERSION% /productversion  %APPVEYOR_BUILD_VERSION%
+
+    aut2exe /in doublescreen-ebs.au3 /pack /out doublescreen-ebs-x64.exe /fileversion %APPVEYOR_BUILD_VERSION% /productversion  %APPVEYOR_BUILD_VERSION%
+
+    aut2exe /in java-alerts-bot.au3 /pack /out java-alerts-bot-x64.exe /fileversion %APPVEYOR_BUILD_VERSION% /productversion  %APPVEYOR_BUILD_VERSION%
+artifacts:
+- path: '*.exe'
+  name: windows-binaries
+deploy:
+- provider: GitHub
+  auth_token:
+    secure: DHeT+KPQh27VwA8VDS+ps7uvoW+lYs+LW3Z4O3R4dg3CJPipa11h12NEtB3vsUbc
+  artifact: windows-binaries
+  force_update: true
+  on:
+    branch: master

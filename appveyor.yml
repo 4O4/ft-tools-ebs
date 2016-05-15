@@ -29,7 +29,7 @@ image: Visual Studio 2015
 install:
 - cmd: cinst autoit.commandline -y -r
 build_script:
-- cmd: >-
+- ps: >-
     aut2exe /in doublescreen-ebs.au3 /pack /out doublescreen-ebs-x86.exe /fileversion %FILE_VERSION% /productversion %PRODUCT_VERSION%
 
     aut2exe /in java-alerts-bot.au3 /pack /out java-alerts-bot-x86.exe /fileversion %FILE_VERSION% /productversion %PRODUCT_VERSION%
@@ -38,13 +38,13 @@ build_script:
 
     aut2exe /in java-alerts-bot.au3 /pack /out java-alerts-bot-x64.exe /fileversion %FILE_VERSION% /productversion %PRODUCT_VERSION%
 
-    IF "%APPVEYOR_REPO_TAG%"=="true" (
+    IF ($env:APPVEYOR_REPO_TAG -eq "true") {
 
       7z a %APPVEYOR_PROJECT_NAME%-%APPVEYOR_BUILD_VERSION%-x64.zip %APPVEYOR_BUILD_FOLDER%\*-x64.exe
 
       7z a %APPVEYOR_PROJECT_NAME%-%APPVEYOR_BUILD_VERSION%-x86.zip %APPVEYOR_BUILD_FOLDER%\*-x86.exe
 
-    )
+    }
 artifacts:
 - path: '*.exe'
   name: windows-binaries

@@ -1,22 +1,42 @@
+version: build-{build}
 init:
 - ps: >-
-    Update-AppveyorBuild -Version "$env:APPVEYOR_REPO_TAG_NAME"
+    echo "Project: $env:APPVEYOR_PROJECT_NAME"
+
+    echo "Tag: $env:APPVEYOR_REPO_TAG_NAME"
+
+    echo "Branch $env:APPVEYOR_REPO_BRANCH"
+
+    echo "Commit $env:APPVEYOR_REPO_COMMIT"
+
+
+    IF ($env:APPVEYOR_REPO_TAG -eq "true") {
+
+    Update-AppveyorBuild -Version "$env:APPVEYOR_REPO_TAG_NAME (build $env:APPVEYOR_BUILD_NUMBER)"
 
     $env:FILE_VERSION = $env:APPVEYOR_REPO_TAG_NAME.Substring(1)
 
     $env:PRODUCT_VERSION = $env:APPVEYOR_REPO_TAG_NAME.Substring(1)
+
+    } else {
+
+    $env:FILE_VERSION = $env:APPVEYOR_REPO_COMMIT
+
+    $env:PRODUCT_VERSION = $env:APPVEYOR_REPO_COMMIT
+
+    }
 image: Visual Studio 2015
 install:
 - cmd: cinst autoit.commandline -y -r
 build_script:
 - cmd: >-
-    aut2exe /in doublescreen-ebs.au3 /pack /out doublescreen-ebs-x86.exe /fileversion %FILE_VERSION% /productversion  %PRODUCT_VERSION%
+    aut2exe /in doublescreen-ebs.au3 /pack /out doublescreen-ebs-x86.exe /fileversion %FILE_VERSION% /productversion %PRODUCT_VERSION%
 
-    aut2exe /in java-alerts-bot.au3 /pack /out java-alerts-bot-x86.exe /fileversion %FILE_VERSION% /productversion  %PRODUCT_VERSION%
+    aut2exe /in java-alerts-bot.au3 /pack /out java-alerts-bot-x86.exe /fileversion %FILE_VERSION% /productversion %PRODUCT_VERSION%
 
-    aut2exe /in doublescreen-ebs.au3 /pack /out doublescreen-ebs-x64.exe /fileversion %FILE_VERSION% /productversion  %PRODUCT_VERSION%
+    aut2exe /in doublescreen-ebs.au3 /pack /out doublescreen-ebs-x64.exe /fileversion %FILE_VERSION% /productversion %PRODUCT_VERSION%
 
-    aut2exe /in java-alerts-bot.au3 /pack /out java-alerts-bot-x64.exe /fileversion %FILE_VERSION% /productversion  %PRODUCT_VERSION%
+    aut2exe /in java-alerts-bot.au3 /pack /out java-alerts-bot-x64.exe /fileversion %FILE_VERSION% /productversion %PRODUCT_VERSION%
 
 
     IF "%APPVEYOR_REPO_TAG%" == "true" (

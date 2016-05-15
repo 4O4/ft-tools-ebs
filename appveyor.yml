@@ -1,26 +1,37 @@
 init:
 - ps: >-
     Update-AppveyorBuild -Version "$env:APPVEYOR_REPO_TAG_NAME"
-skip_non_tags: true
+    $env:FILE_VERSION = $env:APPVEYOR_REPO_TAG_NAME:Substring(1)
+    $env:PRODUCT_VERSION = $env:APPVEYOR_REPO_TAG_NAME:Substring(1)
 image: Visual Studio 2015
 install:
 - cmd: cinst autoit.commandline -y -r
 build_script:
 - cmd: >-
-    aut2exe /in doublescreen-ebs.au3 /pack /out doublescreen-ebs.exe /fileversion %APPVEYOR_BUILD_VERSION% /productversion  %APPVEYOR_BUILD_VERSION%
-
-    aut2exe /in java-alerts-bot.au3 /pack /out java-alerts-bot.exe /fileversion %APPVEYOR_BUILD_VERSION% /productversion  %APPVEYOR_BUILD_VERSION%
-
-    aut2exe /in doublescreen-ebs.au3 /pack /out doublescreen-ebs-x64.exe /fileversion %APPVEYOR_BUILD_VERSION% /productversion  %APPVEYOR_BUILD_VERSION%
-
-    aut2exe /in java-alerts-bot.au3 /pack /out java-alerts-bot-x64.exe /fileversion %APPVEYOR_BUILD_VERSION% /productversion  %APPVEYOR_BUILD_VERSION%
+    aut2exe /in doublescreen-ebs.au3 /pack /out doublescreen-ebs-x86.exe /fileversion %FILE_VERSION% /productversion  %PRODUCT_VERSION%
+    aut2exe /in java-alerts-bot.au3 /pack /out java-alerts-bot-x86.exe /fileversion %FILE_VERSION% /productversion  %PRODUCT_VERSION%
+    
+    aut2exe /in doublescreen-ebs.au3 /pack /out doublescreen-ebs-x64.exe /fileversion %FILE_VERSION% /productversion  %PRODUCT_VERSION%
+    aut2exe /in java-alerts-bot.au3 /pack /out java-alerts-bot-x64.exe /fileversion %FILE_VERSION% /productversion  %PRODUCT_VERSION%
+    
+    IF ($env:APPVEYOR_REPO_TAG -eq "true")
+    {
+      7z a %APPVEYOR_PROJECT_NAME%-%APPVEYOR_BUILD_VERSION%-x64.zip %APPVEYOR_BUILD_FOLDER%\*-x64.exe
+      7z a %APPVEYOR_PROJECT_NAME%-%APPVEYOR_BUILD_VERSION%-x86.zip %APPVEYOR_BUILD_FOLDER%\*-x86.exe
+    }
 artifacts:
 - path: '*.exe'
   name: windows-binaries
+- path: '*.zip'
+  name: windows-packages
 deploy:
 - provider: GitHub
+  tag: $(appveyor_repo_tag_name)
   auth_token:
     secure: DHeT+KPQh27VwA8VDS+ps7uvoW+lYs+LW3Z4O3R4dg3CJPipa11h12NEtB3vsUbc
-  artifact: windows-binaries
-  release: ft-tools-ebs-$(appveyor_build_version)
+  artifact: windows-binaries,windows-packages
+  release: $(APPVEYOR_PROJECT_NAME)-$(APPVEYOR_BUILD_VERSION)
   force_update: true
+  on:
+    branch: /v\d\.\d\.\d/
+    appveyor_repo_tag: true

@@ -40,9 +40,9 @@ build_script:
 
     IF ($env:APPVEYOR_REPO_TAG -eq "true") {
 
-      7z a "$env:APPVEYOR_PROJECT_NAME-$env:APPVEYOR_BUILD_VERSION%-x64.zip" "$env:APPVEYOR_BUILD_FOLDER\*-x64.exe"
+      7z a "$env:APPVEYOR_PROJECT_NAME-$env:APPVEYOR_REPO_TAG_NAME-x64.zip" "$env:APPVEYOR_BUILD_FOLDER\*-x64.exe"
 
-      7z a "$env:APPVEYOR_PROJECT_NAME-$env:APPVEYOR_BUILD_VERSION%-x86.zip" "$env:APPVEYOR_BUILD_FOLDER\*-x86.exe"
+      7z a "$env:APPVEYOR_PROJECT_NAME-$env:APPVEYOR_REPO_TAG_NAME-x86.zip" "$env:APPVEYOR_BUILD_FOLDER\*-x86.exe"
 
     }
 artifacts:

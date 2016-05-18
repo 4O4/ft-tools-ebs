@@ -59,5 +59,4 @@ deploy:
   release: $(APPVEYOR_PROJECT_NAME)-$(APPVEYOR_REPO_TAG_NAME)
   force_update: true
   on:
-    branch: /v\d\.\d\.\d/
     appveyor_repo_tag: true

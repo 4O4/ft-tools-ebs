@@ -34,9 +34,9 @@ build_script:
 
     aut2exe /in java-alerts-bot.au3 /pack /out java-alerts-bot-x86.exe /fileversion "$env:FILE_VERSION" /productversion "$env:PRODUCT_VERSION"
 
-    aut2exe /in doublescreen-ebs.au3 /pack /out doublescreen-ebs-x64.exe /fileversion "$env:FILE_VERSION" /productversion "$env:PRODUCT_VERSION"
+    aut2exe /in doublescreen-ebs.au3 /pack /out doublescreen-ebs-x64.exe /x64 /fileversion "$env:FILE_VERSION" /productversion "$env:PRODUCT_VERSION"
 
-    aut2exe /in java-alerts-bot.au3 /pack /out java-alerts-bot-x64.exe /fileversion "$env:FILE_VERSION" /productversion "$env:PRODUCT_VERSION"
+    aut2exe /in java-alerts-bot.au3 /pack /out java-alerts-bot-x64.exe /x64 /fileversion "$env:FILE_VERSION" /productversion "$env:PRODUCT_VERSION"
 
     IF ($env:APPVEYOR_REPO_TAG -eq "true") {
 

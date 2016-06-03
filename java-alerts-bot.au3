@@ -8,11 +8,13 @@
 #include <AutoItConstants.au3>
 #include <MsgBoxConstants.au3>
 #include <Misc.au3>
+
 _Singleton('java-alerts-bot')
 
 ; Ctrl + Alt + Q
 HotKeySet("^!q", "terminate")
 
+Const $WINDOW_PATTERN = "[TITLE:Security Warning;CLASS:SunAwtDialog]"
 Func terminate()
    if MsgBox(BitOr($MB_YESNO, $MB_DEFBUTTON2, $MB_ICONQUESTION), "Terminating", "Terminatine " & @ScriptName & "?") = $IDYES Then
 	  Exit
@@ -21,36 +23,64 @@ EndFunc
 
 Local $aMousePos
 Local $aWinPos
+Local $aActiveWindow
 
 while 1
-   if WinExists("[TITLE:Security Warning;CLASS:SunAwtDialog]") Then
-	  WinActivate("[TITLE:Security Warning;CLASS:SunAwtDialog]")
-;~    Else
-;~ 	  WinWaitActive("[TITLE:Security Warning;CLASS:SunAwtDialog]", "")
-
+   if WinExists($WINDOW_PATTERN) Then
 	  $aMousePos = MouseGetPos()
-	  $aWinPos = WinGetPos("[TITLE:Security Warning;CLASS:SunAwtDialog]")
+	  $aWinPos = WinGetPos($WINDOW_PATTERN)
+	  $hActiveWindow = WinGetTitle("[Active]")
 
-	  if $aPos[2] == 554 and $aPos[3] == 356 then
+	  if $aWinPos[2] == 554 and $aWinPos[3] == 356 then
+		 WinActivate($WINDOW_PATTERN)
 		 BlockInput($BI_DISABLE)
-		 MouseClick("primary", $aPos[0] + 45, $aPos[1] + 323, 1, 1)
-		 MouseClick("primary", $aPos[0] + 415, $aPos[1] + 323, 1, 1)
+		 MouseClick("primary", $aWinPos[0] + 45, $aWinPos[1] + 323, 1, 1)
+		 MouseClick("primary", $aWinPos[0] + 415, $aWinPos[1] + 323, 1, 1)
+		 MouseMove($aMousePos[0], $aMousePos[1], 0)
+		 If WinExists($aActiveWindow) Then
+			WinActivate($aActiveWindow)
+		 EndIf
 		 MouseMove($aMousePos[0], $aMousePos[1], 0)
 		 BlockInput($BI_ENABLE)
-	  ElseIf $aPos[2] == 554 and $aPos[3] == 315 then
+	  ElseIf $aWinPos[2] == 554 and $aWinPos[3] == 315 then
+		 WinActivate($WINDOW_PATTERN)
 		 BlockInput($BI_DISABLE)
-		 MouseClick("primary", $aPos[0] + 45, $aPos[1] + 275, 1, 1)
-		 MouseClick("primary", $aPos[0] + 415, $aPos[1] + 275, 1, 1)
+		 MouseClick("primary", $aWinPos[0] + 45, $aWinPos[1] + 275, 1, 1)
+		 MouseClick("primary", $aWinPos[0] + 415, $aWinPos[1] + 275, 1, 1)
+		 MouseMove($aMousePos[0], $aMousePos[1], 0)
+		 If WinExists($aActiveWindow) Then
+			WinActivate($aActiveWindow)
+		 EndIf
 		 MouseMove($aMousePos[0], $aMousePos[1], 0)
 		 BlockInput($BI_ENABLE)
-	  ElseIf $aPos[2] == 556 and $aPos[3] == 245 then
+	  ElseIf $aWinPos[2] == 556 and $aWinPos[3] == 245 then
+		 WinActivate($WINDOW_PATTERN)
 		 BlockInput($BI_DISABLE)
-		 MouseClick("primary", $aPos[0] + 415, $aPos[1] + 210, 1, 1)
+		 MouseClick("primary", $aWinPos[0] + 415, $aWinPos[1] + 210, 1, 1)
+		 MouseMove($aMousePos[0], $aMousePos[1], 0)
+		 If WinExists($aActiveWindow) Then
+			WinActivate($aActiveWindow)
+		 EndIf
 		 MouseMove($aMousePos[0], $aMousePos[1], 0)
 		 BlockInput($BI_ENABLE)
-	  ElseIf $aPos[2] == 603 and $aPos[3] == 275 then
+	  ElseIf $aWinPos[2] == 603 and $aWinPos[3] == 275 then
+		 WinActivate($WINDOW_PATTERN)
 		 BlockInput($BI_DISABLE)
-		 MouseClick("primary", $aPos[0] + 480, $aPos[1] + 233, 1, 1)
+		 MouseClick("primary", $aWinPos[0] + 480, $aWinPos[1] + 233, 1, 1)
+		 MouseMove($aMousePos[0], $aMousePos[1], 0)
+		 If WinExists($aActiveWindow) Then
+			WinActivate($aActiveWindow)
+		 EndIf
+		 MouseMove($aMousePos[0], $aMousePos[1], 0)
+		 BlockInput($BI_ENABLE)
+	  ElseIf $aWinPos[2] == 603 and $aWinPos[3] == 296 then
+		 WinActivate($WINDOW_PATTERN)
+		 BlockInput($BI_DISABLE)
+		 MouseClick("primary", $aWinPos[0] + 400, $aWinPos[1] + 250, 1, 1)
+		 MouseMove($aMousePos[0], $aMousePos[1], 0)
+		 If WinExists($aActiveWindow) Then
+			WinActivate($aActiveWindow)
+		 EndIf
 		 MouseMove($aMousePos[0], $aMousePos[1], 0)
 		 BlockInput($BI_ENABLE)
 	  EndIf

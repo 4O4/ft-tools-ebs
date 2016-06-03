@@ -15,11 +15,6 @@ _Singleton('java-alerts-bot')
 HotKeySet("^!q", "terminate")
 
 Const $WINDOW_PATTERN = "[TITLE:Security Warning;CLASS:SunAwtDialog]"
-Func terminate()
-   if MsgBox(BitOr($MB_YESNO, $MB_DEFBUTTON2, $MB_ICONQUESTION), "Terminating", "Terminatine " & @ScriptName & "?") = $IDYES Then
-	  Exit
-   EndIf
-EndFunc
 
 Local $aMousePos
 Local $aWinPos
@@ -88,3 +83,9 @@ while 1
 
    Sleep(100)
 WEnd
+
+Func terminate()
+   if MsgBox(BitOr($MB_YESNO, $MB_DEFBUTTON2, $MB_ICONQUESTION), "Terminating", "Terminatine " & @ScriptName & "?") = $IDYES Then
+	  Exit
+   EndIf
+EndFunc

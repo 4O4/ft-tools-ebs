@@ -3,6 +3,7 @@
 ; Author: PK
 
 #RequireAdmin
+#NoTrayIcon
 
 #include <AutoItConstants.au3>
 #include <MsgBoxConstants.au3>

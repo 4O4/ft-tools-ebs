@@ -101,6 +101,23 @@ While 1
 				Location: ...
 			#CE
 			_ArrayAdd($aClicks, "primary|270|155") ; "Run with the latest version"
+		ElseIf $aClientSize[0] == 548 And $aClientSize[1] == 308 Then
+			#CS
+				"Do you want to run this application?
+
+				Name: ...
+				Publisher: ...
+				Location: ...
+
+				Running this application may be a security risk
+
+				This application will run with unrestricted access which may put your computer and personal information at risk.
+				The information provided is unreliable or unknown so it is recommended not to run this application unless you
+				are familiar with its source
+				"
+			#CE
+			_ArrayAdd($aClicks, "primary|40|278") ; "I accept the risk and want to run this application"
+			_ArrayAdd($aClicks, "primary|400|278") ; "Run"
 		ElseIf $aClientSize[0] == 130 And $aClientSize[1] == 10 Then
 			; There is some invisible window of such size apparently
 		ElseIf $aClientSize[0] > 0 And $aClientSize[1] > 0 Then
